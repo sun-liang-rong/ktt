@@ -15,3 +15,4 @@ request.interceptors.response.use(
     return err
   }
 )
+export { request }

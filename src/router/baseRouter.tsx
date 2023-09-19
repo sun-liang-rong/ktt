@@ -1,5 +1,6 @@
 import Admin from '../views/Admin/Admin'
 import Login from '../views/Login'
+import Private from '../utils/Private'
 export const baseRouter = [
   {
     path: '/',
@@ -7,6 +8,6 @@ export const baseRouter = [
   },
   {
     path: '/admin/*',
-    element: <Admin></Admin>
+    element: <Private><Admin></Admin></Private>
   }
 ]

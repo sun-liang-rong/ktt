@@ -1,6 +1,5 @@
 import { SET_TOKEN, SET_USER, SET_MENU, SET_ROUTES } from '../Types'
 import type { IAction } from '../../types'
-import LazyLoad from '../../utils/LazyLoad'
 const initialState = {
   userInfo: {}, //用户信息
   token: "", 

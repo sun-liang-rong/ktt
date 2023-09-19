@@ -1,5 +1,6 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Layout, Space, theme, Menu, Button, } from 'antd';
+import type { MenuProps, MenuTheme } from 'antd';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -13,11 +14,16 @@ import type { RootState } from "../../store";
 import { MenuItemType } from '../../types'
 const { Header, Footer, Sider, Content } = Layout;
 function Admin() {
+  const navigate = useNavigate()
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
   const menu = useSelector((state: RootState) => state.auth.menu)
+  const clickMenu:MenuProps['onClick']  = (e) => {
+    console.log(e.item, e.key)
+    navigate(e.key)
+  }
   return (
     <>
       <Layout style={{width: '100%',height: '100vh'}}>
@@ -28,6 +34,7 @@ function Admin() {
             mode="inline"
             defaultSelectedKeys={['1']}
             items={menu}
+            onClick={clickMenu}
           />
         </Sider>
         <Layout>

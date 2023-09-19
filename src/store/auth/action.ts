@@ -2,8 +2,15 @@ import { login as loginApi, getUserMenu } from '../../api/auth'
 import { SET_MENU, SET_ROUTES, SET_TOKEN, SET_USER } from '../Types'
 import { UserType, LoginResponseType } from '../../types'
 import { message, theme } from 'antd';
+import type { ReactNode } from 'react'
 import { Dispatch } from 'redux'
 import { MenuItemType, OriginMenuItemType } from '../../types'
+import LazyLoad from '../../utils/LazyLoad' 
+import { baseRouter } from '../../router/baseRouter'
+interface RouteItem {
+  path: string
+  element: ReactNode
+}
 export function login(data: UserType,callback: Function) {
   return (dispatch: Dispatch<any>) => {
     loginApi(data).then(
@@ -40,22 +47,29 @@ export function getMenus(){
           });
         }
         function formaterRoute(route: any){
+          let routerlist: any = []
           route.forEach((item: any) => {
             if(item.component){
-              
+              let obj: RouteItem = {
+                path: item.path,
+                element:  LazyLoad(item.component)
+              }
+              routerlist.push(obj)
             }
             if(item.children && item.children.length > 0){
-              formaterRoute(item.children)
+              let result = formaterRoute(item.children)
+              routerlist = routerlist.concat(result)
             }
           })
+          return routerlist
         }
-        formaterRoute(route)
+        let routerlist = formaterRoute(route)
         formaterMenu(menu)
         localStorage.setItem('menu', JSON.stringify(menu))
-        localStorage.setItem('route', JSON.stringify(route))
+        localStorage.setItem('route', JSON.stringify(routerlist))
         dispatch({type: SET_MENU, payload: menu})
         //更新redux中的路由
-        dispatch({type: SET_ROUTES, payload: route})
+        dispatch({type: SET_ROUTES, payload: routerlist})
       }
     )
   }

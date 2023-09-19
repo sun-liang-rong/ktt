@@ -8,6 +8,6 @@ export const baseRouter = [
   },
   {
     path: '/admin/*',
-    element: <Private><Admin></Admin></Private>
+    element: <Private><Admin></Admin></Private>,
   }
 ]

@@ -1,5 +1,5 @@
 import { login as loginApi, getUserMenu } from '../../api/auth'
-import { SET_MENU, SET_TOKEN, SET_USER } from '../Types'
+import { SET_MENU, SET_ROUTES, SET_TOKEN, SET_USER } from '../Types'
 import { UserType, LoginResponseType } from '../../types'
 import { message, theme } from 'antd';
 import { Dispatch } from 'redux'
@@ -54,6 +54,8 @@ export function getMenus(){
         localStorage.setItem('menu', JSON.stringify(menu))
         localStorage.setItem('route', JSON.stringify(route))
         dispatch({type: SET_MENU, payload: menu})
+        //更新redux中的路由
+        dispatch({type: SET_ROUTES, payload: route})
       }
     )
   }
